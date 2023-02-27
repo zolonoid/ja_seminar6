@@ -20,6 +20,7 @@ public class NoteBook
 
     static
     {
+        configMap = new HashMap<String,String[]>();
         SetConfigurationMap();
         rand = new Random();
         notebooks = new ArrayList<NoteBook>();
@@ -29,6 +30,7 @@ public class NoteBook
 
     private NoteBook()
     {
+        _configs = new HashMap<String,String>();
         SetRandomConfigs();
         _id = ++lastId;
     }
