@@ -47,6 +47,7 @@ public class Main
                 System.out.printf(": %s", filters.get(config.getKey()));
             System.out.println();
         }
+        System.out.println("0 - Применить фильтр");
         int menuIndex = sc.nextInt() - 1;
         if(menuIndex < 0) return null;
         return configList.get(menuIndex).getKey();
