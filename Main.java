@@ -5,7 +5,6 @@ import java.util.Map.Entry;
 
 public class Main
 {
-    private static ArrayList<Entry<String,String[]>> configList;
     private static Scanner sc = null;
     private static HashMap<String,String> filters = new HashMap<String,String>();
 
@@ -13,7 +12,6 @@ public class Main
     {
         try
         {
-            configList = NoteBook.GetConfigList();
             sc = new Scanner(System.in);
             var configs = new HashMap<String,String>();
             while(true)
@@ -33,9 +31,10 @@ public class Main
         }
     }
 
-    private static void PrintFilterChoice()
+    private static String FilterChoice()
     {
-        for (int menuIndex = 1; menuIndex <= configList.size(); menuIndex++)
+        ArrayList<Entry<String,String[]>> configList = NoteBook.GetConfigList();
+        for(int menuIndex = 1; menuIndex <= configList.size(); menuIndex++)
         {
             var config = configList.get(menuIndex - 1);
             System.out.printf("%d - %s", menuIndex, config.getKey());
@@ -43,23 +42,21 @@ public class Main
                 System.out.printf(": %s", filters.get(config.getKey()));
             System.out.println();
         }
-    }
-    
-    private static String GetFilterInput()
-    {
         int menuIndex = sc.nextInt() - 1;
         if(menuIndex < 0) return null;
         return configList.get(menuIndex).getKey();
     }
 
-    private static void PrintFilterValueChoice(String filterKey)
+    private static void FilterValueChoice(String filterKey)
     {
         String[] values = NoteBook.GetConfigValues(filterKey);
-        for (int menuIndex = 1; menuIndex <= values.length; menuIndex++)
+        for(int menuIndex = 1; menuIndex <= values.length; menuIndex++)
         {
             var value = values[menuIndex - 1];
             System.out.printf("%d - %s", menuIndex, value);
             System.out.println();
         }
+        int menuIndex = sc.nextInt() - 1;
+        filters.put(filterKey, values[menuIndex]);
     }
 }
