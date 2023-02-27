@@ -1,4 +1,3 @@
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -11,19 +10,13 @@ import java.util.Map.Entry;
  */
 public class NoteBook
 {
-    // private static int[] rams = { 2, 4, 8, 12, 16, 32, 64 };
-    // private static int[] hdds = { 128, 256, 512, 1024, 2048, 3072, 4096, 8192 };
-    // private static String[] oss = { "Windows 10", "Windows 11", "Mac OS", "Ubuntu" };
-    // private static Color[] colors = { Color.black, Color.white, Color.gray };
     private static HashMap<String,String[]> configMap;
     private static Random rand;
     private static ArrayList<NoteBook> notebooks;
+    private static int lastId = 0;
     
-    // private int _ram;
-    // private int _hdd;
-    // private int _os;
-    // private int _color;
     private HashMap<String,String> _configs;
+    private int _id;
 
     static
     {
@@ -37,10 +30,7 @@ public class NoteBook
     private NoteBook()
     {
         SetRandomConfigs();
-        // SetRandomRam();
-        // SetRandomHdd();
-        // SetRandomOs();
-        // SetRandomColor();
+        _id = ++lastId;
     }
     
     private static void SetConfigurationMap()
@@ -61,30 +51,6 @@ public class NoteBook
             _configs.put(config.getKey(), config.getValue()[index]);
         }
     }
-    
-    // private void SetRandomRam()
-    // {
-    //     int ramIndex = rand.nextInt(rams.length);
-    //     _ram = rams[ramIndex];
-    // }
-
-    // private void SetRandomHdd()
-    // {
-    //     int hddIndex = rand.nextInt(hdds.length);
-    //     _hdd = hdds[hddIndex];
-    // }
-
-    // private void SetRandomOs()
-    // {
-    //     int osIndex = rand.nextInt(oss.length);
-    //     _os = oss[osIndex];
-    // }
-
-    // private void SetRandomColor()
-    // {
-    //     int colorIndex = rand.nextInt(colors.length);
-    //     _color = colors[colorIndex];
-    // }
 
     private boolean isMatch(Map<String,String> configs)
     {
@@ -98,6 +64,15 @@ public class NoteBook
         return true;
     }
 
+    @Override
+    public String toString()
+    {
+        var str = new StringBuilder(String.format("NoteBook %d", _id));
+        for(var config : _configs.entrySet())
+            str.append(String.format("\n%s: %s", config.getKey(), config.getValue()));
+        return str.toString();
+    }
+
     public static ArrayList<Entry<String,String[]>> GetConfigList()
     {
         return new ArrayList<Entry<String,String[]>>(configMap.entrySet());
@@ -107,5 +82,17 @@ public class NoteBook
     {
         String[] configValues = configMap.get(configKey);
         return Arrays.copyOf(configValues, configValues.length);
+    }
+
+    public static String FilterSearchResult(HashMap<String,String> filters)
+    {
+        var result = new StringBuilder();
+        for(NoteBook notebook : notebooks)
+        {
+            if(!notebook.isMatch(filters)) continue;
+            result.append(notebook.toString());
+            result.append("\n\n");
+        }
+        return result.toString();
     }
 }

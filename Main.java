@@ -13,10 +13,15 @@ public class Main
         try
         {
             sc = new Scanner(System.in);
-            var configs = new HashMap<String,String>();
             while(true)
             {
-                
+                String filter = FilterChoice();
+                if(filter == null)
+                {
+                    System.out.println(NoteBook.FilterSearchResult(filters));
+                    break;
+                }
+                FilterValueChoice(filter);
             }
         }
         catch (Exception e)
