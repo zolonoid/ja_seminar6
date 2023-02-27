@@ -18,10 +18,12 @@ public class Main
                 String filter = FilterChoice();
                 if(filter == null)
                 {
+                    System.out.println();
                     System.out.println(NoteBook.FilterSearchResult(filters));
                     break;
                 }
                 FilterValueChoice(filter);
+                System.out.println();
             }
         }
         catch (Exception e)
@@ -39,6 +41,7 @@ public class Main
     private static String FilterChoice()
     {
         ArrayList<Entry<String,String[]>> configList = NoteBook.GetConfigList();
+        System.out.println("Добавить фильтр:");
         for(int menuIndex = 1; menuIndex <= configList.size(); menuIndex++)
         {
             var config = configList.get(menuIndex - 1);
@@ -56,6 +59,7 @@ public class Main
     private static void FilterValueChoice(String filterKey)
     {
         String[] values = NoteBook.GetConfigValues(filterKey);
+        System.out.println("Укажите значение фильтра:");
         for(int menuIndex = 1; menuIndex <= values.length; menuIndex++)
         {
             var value = values[menuIndex - 1];
